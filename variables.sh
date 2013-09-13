@@ -30,7 +30,7 @@ PHP_TGZ_FILE="php-${PHP_VERSION}.tar.gz"
 
 COMPOSER_URL="https://getcomposer.org/installer"
 
-NEWRELIC_VERSION="3.7.5.7"    # http://download.newrelic.com/php_agent/release/
+NEWRELIC_VERSION="3.9.5.13"    # http://download.newrelic.com/php_agent/release/
 NEWRELIC_URL="http://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux.tar.gz"
 NEWRELIC_TGZ_FILE="newrelic-${NEWRELIC_VERSION}.tar.gz"
 
