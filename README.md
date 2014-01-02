@@ -123,3 +123,7 @@ Meta
 This repo is a fork of [heroku/heroku-buildpack-php](https://github.com/heroku/heroku-buildpack-php),
 and includes code from [heroku/heroku-buildpack-nodejs](https://github.com/heroku/heroku-buildpack-nodejs)
 and [heroku-buildpack-php-tyler](https://github.com/iphoting/heroku-buildpack-php-tyler).
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/taeram/heroku-buildpack-php-columbo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
