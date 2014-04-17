@@ -46,3 +46,5 @@ if [ -z `which $MD5SUM_CMD` ]; then
     echo "Cannot find \"$MD5SUM_CMD\" command. Please verify that the coreutils package is installed"
     echo "For more information, see the README.md"
 fi
+
+BUILDPACK_S3_BUCKET="lta-heroku-build-files"
