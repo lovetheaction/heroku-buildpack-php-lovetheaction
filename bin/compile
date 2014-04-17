@@ -103,6 +103,8 @@ else
     echo "-----> Composer File NOT Found"
 fi
 
+ls
+
 if [ ! -d www/vendor ]; then
     echo "-----> vendor directory is not present"
 else
