@@ -97,6 +97,18 @@ tar xf $NEWRELIC_TGZ_FILE -C $BUILD_DIR
 
 # check if we have Composer dependencies and vendors are not bundled
 echo "-----> Checking for Composer dependencies"
+if [ -f www/composer.json ]; then
+    echo "-----> Composer File Found"
+else
+    echo "-----> Composer File NOT Found"
+fi
+
+if [ ! -d www/vendor ]; then
+    echo "-----> vendor directory is not present"
+else
+    echo "-----> vendor directory IS present"
+fi
+
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
   GIT_DIR_ORIG=$GIT_DIR
   unset GIT_DIR
