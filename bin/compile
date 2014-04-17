@@ -130,14 +130,6 @@ if [ -f www/rollout.sh ]; then
 fi
 popd > /dev/null
 
-if [ -f $BUILD_DIR/www/composer.json ]; then
-  echo "-----> Installing Composer dependencies"
-  cd $BUILD_DIR/www
-  /app/php/bin/php /app/php/bin/composer config -g github-protocols https
-  /app/php/bin/php /app/php/bin/composer install --prefer-dist --no-dev --optimize-autoloader
-  cd $BUILD_DIR
-fi
-
 cat >> boot.sh <<EOF
     # Make the Heroku environment variables available to Apache
     echo "-----> Including env variables in Apache"
@@ -168,12 +160,6 @@ cat >> boot.sh <<EOF
 
     # PHP shared library path (for the application)
     export LD_LIBRARY_PATH=/app/php/ext:/app/php/local/lib
-
-    echo "-----> Checking Composer Install"
-    if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
-        echo "-----> Installing Composer dependencie"
-        /app/php/bin/composer install
-    fi
 
     echo "-----> Launching PHP FPM"
     /app/php/sbin/php-fpm --nodaemonize &
