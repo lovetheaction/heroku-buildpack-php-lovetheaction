@@ -51,7 +51,6 @@ fi
 echo "-----> Fetching Manifest: https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$MANIFEST_FILE"
 $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$MANIFEST_FILE"
 
-echo "-----> Starting Apache"
 if [ ! -f "$APACHE_TGZ_FILE" ] || check_md5 "$APACHE_TGZ_FILE"; then
     echo "-----> Bundling Apache v${APACHE_VERSION}"
     $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$APACHE_TGZ_FILE"
@@ -60,7 +59,6 @@ else
 fi
 tar xf $APACHE_TGZ_FILE -C $BUILD_DIR
 
-echo "-----> Starting PHP"
 if [ ! -f "$PHP_TGZ_FILE" ] || check_md5 "$PHP_TGZ_FILE"; then
     echo "-----> Bundling PHP version v${PHP_VERSION}"
     $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$PHP_TGZ_FILE"
@@ -69,7 +67,6 @@ else
 fi
 tar xf $PHP_TGZ_FILE -C $BUILD_DIR
 
-echo "-----> Starting Composer"
 # Set the composer cache directory
 export COMPOSER_HOME=$CACHE_DIR/composer
 
@@ -78,7 +75,6 @@ ln -s /app/php/bin/php $BUILD_DIR/bin/php
 ln -s /app/php/bin/composer $BUILD_DIR/bin/composer
 export PATH=$PATH:$BUILD_DIR/php/bin
 
-echo "-----> Starting Ant"
 if [ ! -f "$ANT_TGZ_FILE" ] || check_md5 "$ANT_TGZ_FILE"; then
     echo "-----> Bundling Ant version v${ANT_VERSION} "
     $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$ANT_TGZ_FILE"
@@ -91,7 +87,6 @@ tar xf $ANT_TGZ_FILE -C $BUILD_DIR
 ln -s /app/ant/bin/ant $BUILD_DIR/bin/ant
 export PATH=$PATH:$BUILD_DIR/ant/bin
 
-echo "-----> Starting New Relic"
 if [ ! -f "$NEWRELIC_TGZ_FILE" ] || check_md5 "$NEWRELIC_TGZ_FILE"; then
     echo "-----> Bundling New Relic v${NEWRELIC_VERSION}"
     $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$NEWRELIC_TGZ_FILE"
@@ -172,6 +167,9 @@ cat >> boot.sh <<EOF
     echo "-----> Launching apache"
     # Tail the logs
     tail --follow=name --retry --quiet /app/logs/* &
+
+    echo "-----> Running Composer Install"
+    composer.phar install
 
     exec /app/apache/bin/httpd -DNO_DETACH
 EOF
