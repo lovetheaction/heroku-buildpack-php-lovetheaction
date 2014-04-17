@@ -75,8 +75,6 @@ ln -s /app/php/bin/php $BUILD_DIR/bin/php
 ln -s /app/php/bin/composer $BUILD_DIR/bin/composer
 export PATH=$PATH:$BUILD_DIR/php/bin
 
-composer install
-
 if [ ! -f "$ANT_TGZ_FILE" ] || check_md5 "$ANT_TGZ_FILE"; then
     echo "-----> Bundling Ant version v${ANT_VERSION} "
     $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$ANT_TGZ_FILE"
@@ -163,15 +161,18 @@ cat >> boot.sh <<EOF
     # PHP shared library path (for the application)
     export LD_LIBRARY_PATH=/app/php/ext:/app/php/local/lib
 
+    echo "-----> Checking Composer Install"
+    if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
+        echo "-----> Installing Composer dependencie"
+        /app/php/bin/composer install
+    fi
+
     echo "-----> Launching PHP FPM"
     /app/php/sbin/php-fpm --nodaemonize &
 
     echo "-----> Launching apache"
     # Tail the logs
     tail --follow=name --retry --quiet /app/logs/* &
-
-    echo "-----> Running Composer Install"
-    composer.phar install
 
     exec /app/apache/bin/httpd -DNO_DETACH
 EOF
