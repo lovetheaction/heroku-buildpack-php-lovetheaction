@@ -75,6 +75,8 @@ ln -s /app/php/bin/php $BUILD_DIR/bin/php
 ln -s /app/php/bin/composer $BUILD_DIR/bin/composer
 export PATH=$PATH:$BUILD_DIR/php/bin
 
+composer install
+
 if [ ! -f "$ANT_TGZ_FILE" ] || check_md5 "$ANT_TGZ_FILE"; then
     echo "-----> Bundling Ant version v${ANT_VERSION} "
     $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$ANT_TGZ_FILE"
@@ -107,7 +109,7 @@ cp $LP_DIR/conf/php/php-fpm.conf php/etc/php-fpm.conf
 cp $LP_DIR/conf/php/php-fpm-wrapper php/sbin/php-fpm-wrapper
 
 # PHP shared library path (just for the compile step)
-export LD_LIBRARY_PATH=$BUILD_DIR/php/ext:$BUILD_DIR/php/local/lib -c $LP_DIR/conf/php.ini composer.phar install --prefer-source
+export LD_LIBRARY_PATH=$BUILD_DIR/php/ext:$BUILD_DIR/php/local/lib
 
 # Create the logs and directories
 mkdir -p $BUILD_DIR/logs
@@ -159,7 +161,7 @@ cat >> boot.sh <<EOF
     sed -i "s|08f0a400f7cab5e431c64686debc4b9170d348f5|${NEW_RELIC_LICENSE_KEY}|g" /app/php/conf.d/newrelic.ini
 
     # PHP shared library path (for the application)
-    export LD_LIBRARY_PATH=/app/php/ext:/app/php/local/lib -c $LP_DIR/conf/php.ini composer.phar install --prefer-source
+    export LD_LIBRARY_PATH=/app/php/ext:/app/php/local/lib
 
     echo "-----> Launching PHP FPM"
     /app/php/sbin/php-fpm --nodaemonize &
@@ -167,6 +169,9 @@ cat >> boot.sh <<EOF
     echo "-----> Launching apache"
     # Tail the logs
     tail --follow=name --retry --quiet /app/logs/* &
+
+    echo "-----> Running Composer Install"
+    composer.phar install
 
     exec /app/apache/bin/httpd -DNO_DETACH
 EOF
