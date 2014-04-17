@@ -130,34 +130,12 @@ if [ -f www/rollout.sh ]; then
 fi
 popd > /dev/null
 
-cd $BUILD_DIR
-
-# check if we have Composer dependencies and vendors are not bundled
-echo "-----> Checking for Composer dependencies"
-if [ -f www/composer.json ]; then
-    echo "-----> Composer File Found"
-else
-    echo "-----> Composer File NOT Found"
-fi
-
-if [ ! -d www/vendor ]; then
-    echo "-----> vendor directory is not present"
-else
-    echo "-----> vendor directory IS present"
-fi
-
-if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
-  GIT_DIR_ORIG=$GIT_DIR
-  unset GIT_DIR
+if [ -f $BUILD_DIR/www/composer.json ]; then
   echo "-----> Installing Composer dependencies"
-  COMPOSER_URL="http://getcomposer.org/composer.phar"
-  curl --silent --max-time 60 --location "$COMPOSER_URL" > www/composer.phar
-  cd www
-  LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini composer.phar install --prefer-source
-  rm -rf vendor/**/.git
+  cd $BUILD_DIR/www
+  $BUILD_DIR/bin/php $BUILD_DIR/bin/composer config -g github-protocols https
+  $BUILD_DIR/bin/php $BUILD_DIR/bin/composer install --prefer-dist --no-dev --optimize-autoloader
   cd $BUILD_DIR
-  rm www/composer.phar
-  export GIT_DIR=$GIT_DIR_ORIG
 fi
 
 cat >> boot.sh <<EOF
