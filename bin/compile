@@ -107,7 +107,7 @@ cp $LP_DIR/conf/php/php-fpm.conf php/etc/php-fpm.conf
 cp $LP_DIR/conf/php/php-fpm-wrapper php/sbin/php-fpm-wrapper
 
 # PHP shared library path (just for the compile step)
-export LD_LIBRARY_PATH=$BUILD_DIR/php/ext:$BUILD_DIR/php/local/lib
+export LD_LIBRARY_PATH=$BUILD_DIR/php/ext:$BUILD_DIR/php/local/lib composer.phar install --prefer-source
 
 # Create the logs and directories
 mkdir -p $BUILD_DIR/logs
@@ -159,7 +159,7 @@ cat >> boot.sh <<EOF
     sed -i "s|08f0a400f7cab5e431c64686debc4b9170d348f5|${NEW_RELIC_LICENSE_KEY}|g" /app/php/conf.d/newrelic.ini
 
     # PHP shared library path (for the application)
-    export LD_LIBRARY_PATH=/app/php/ext:/app/php/local/lib
+    export LD_LIBRARY_PATH=/app/php/ext:/app/php/local/lib composer.phar install --prefer-source
 
     echo "-----> Launching PHP FPM"
     /app/php/sbin/php-fpm --nodaemonize &
@@ -167,9 +167,6 @@ cat >> boot.sh <<EOF
     echo "-----> Launching apache"
     # Tail the logs
     tail --follow=name --retry --quiet /app/logs/* &
-
-    echo "-----> Running Composer Install"
-    composer.phar install
 
     exec /app/apache/bin/httpd -DNO_DETACH
 EOF
