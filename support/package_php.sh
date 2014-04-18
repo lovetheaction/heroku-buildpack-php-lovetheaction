@@ -73,6 +73,12 @@ echo "**** Downloading Composer"
 curl -L -s  $COMPOSER_URL | /app/php/bin/php
 mv composer.phar /app/php/bin/composer
 
+# mongo
+echo "**** Downloading Mongo"
+PHP_EXTENSION_DIR=`/app/php/bin/php-config --extension-dir`
+curl -L -s  $MONGO_URL | /app/php/bin/php
+mv mongo.so ${PHP_EXTENSION_DIR}/mongo.so
+
 # php shared libraries
 mkdir /app/php/ext
 cp /usr/lib/libmysqlclient.so.16 /app/php/ext/
