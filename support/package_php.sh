@@ -73,12 +73,6 @@ echo "**** Downloading Composer"
 curl -L -s  $COMPOSER_URL | /app/php/bin/php
 mv composer.phar /app/php/bin/composer
 
-# mongo
-echo "**** Downloading Mongo"
-PHP_EXTENSION_DIR=`/app/php/bin/php-config --extension-dir`
-curl -L -s  $MONGO_URL | /app/php/bin/php
-mv mongo.so ${PHP_EXTENSION_DIR}/mongo.so
-
 # php shared libraries
 mkdir /app/php/ext
 cp /usr/lib/libmysqlclient.so.16 /app/php/ext/
@@ -127,5 +121,14 @@ mkdir -p /app/logs/
 touch /app/logs/php-fpm.error.log
 
 # mongo
-curl -L -s  $MONGO_URL | $BUILD_DIR/php/bin/php
-mv mongo.so ${PHP_EXTENSION_DIR}/mongo.so
+echo "**** Downloading Mongo"
+cd $SCRIPT_DIR
+git clone https://github.com/mongodb/mongo-php-driver.git
+cd mongo-php-driver
+/app/php/bin/phpize
+./configure --with-php-config=/app/php/bin/php-config
+make && \
+make install
+
+cd $SCRIPT_DIR
+rm -rf mongo-php-driver
