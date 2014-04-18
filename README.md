@@ -1,4 +1,4 @@
-Love The Action PHP+Composer+Mongo+More buildpack
+LTA PHP+Composer+Mongo+More buildpack
 ========================
 
 This is a Heroku buildpack which includes:
@@ -20,7 +20,7 @@ This is a Heroku buildpack which includes:
  * Includes the following notable extensions:
   * apc, curl, mcrypt, memcached, mysql, mysqli, newrelic, pdo, pgsql, phar, soap, zip
 * [Mongo][]
- * Current version: 5.4
+ * Current version: 1.5
 
 This build pack should be used along with [taeram/heroku-buildpack-php-columbo-template](https://github.com/taeram/heroku-buildpack-php-columbo-template).
 
@@ -33,6 +33,7 @@ This build pack should be used along with [taeram/heroku-buildpack-php-columbo-t
 [NPM]: https://npmjs.org/
 [PHP]: http://php.net/
 [taeram/heroku-buildpack-php-columbo-template]: https://github.com/taeram/heroku-buildpack-php-columbo-template
+[Mongo]: https://www.mongodb.org/
 
 Requirements
 ============
