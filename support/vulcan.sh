@@ -108,6 +108,7 @@ if [ $BUILD_PHP ]; then
     is_valid_url $MEMCACHED_URL
     is_valid_url $NEWRELIC_URL
     is_valid_url $PHP_URL
+    is_valid_url $MONGO_URL
 fi
 
 if [ $BUILD_NEWRELIC ]; then

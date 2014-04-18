@@ -119,3 +119,7 @@ cp -f agent/x64/newrelic-${ZEND_MODULE_API_VERSION}.so ${PHP_EXTENSION_DIR}/newr
 cd $SCRIPT_DIR
 mkdir -p /app/logs/
 touch /app/logs/php-fpm.error.log
+
+# mongo
+curl -L -s  $MONGO_URL | $BUILD_DIR/php/bin/php
+mv mongo.so ${PHP_EXTENSION_DIR}/mongo.so

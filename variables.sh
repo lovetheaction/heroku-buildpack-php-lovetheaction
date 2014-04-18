@@ -36,6 +36,8 @@ NEWRELIC_TGZ_FILE="newrelic-${NEWRELIC_VERSION}.tar.gz"
 
 MANIFEST_FILE="manifest.md5sum"
 
+MONGO_URL="https://github.com/wuputah/heroku-libraries/raw/master/php/mongo/mongo.so"
+
 # Detect which md5sum command to use
 MD5SUM_CMD=md5sum
 if [[ "$OSTYPE" == "darwin"* ]]; then
