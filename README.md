@@ -1,4 +1,4 @@
-LTA PHP+Composer+Mongo+More buildpack
+LTA PHP Composer Mongo buildpack
 ========================
 
 This is a Heroku buildpack which includes:
