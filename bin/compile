@@ -48,6 +48,9 @@ if [ -n "`find . -type f -atime +30`" ]; then
     find . -type f -atime +30 -delete | indent
 fi
 
+echo "-----> Environment Variables"
+echo "${ENV_DIR}"
+
 echo "-----> Fetching Manifest: https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$MANIFEST_FILE"
 $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$MANIFEST_FILE"
 
@@ -129,9 +132,6 @@ if [ -f www/rollout.sh ]; then
     ./www/rollout.sh "$BUILD_DIR" "$CACHE_DIR" "$APPLICATION_ENV"
 fi
 popd > /dev/null
-
-echo "-----> Environment Variables"
-echo "${ENV_DIR}"
 
 cat >> boot.sh <<EOF
     # Make the Heroku environment variables available to Apache
