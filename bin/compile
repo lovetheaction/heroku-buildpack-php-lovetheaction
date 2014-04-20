@@ -134,12 +134,11 @@ fi
 popd > /dev/null
 
 echo "-----> Setup Environment Variables"
-
 echo "-----> New Relic License Key: ${NEW_RELIC_LICENSE_KEY}"
-sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/php/conf.d/newrelic.ini
-
 echo "-----> New Relic Name: ${NEW_RELIC_APP_NAME}"
-sed -i "s|REPLACE_WITH_REAL_NAME|${NEW_RELIC_APP_NAME}|g" /app/php/conf.d/newrelic.ini
+#sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/php/conf.d/newrelic.ini
+
+#sed -i "s|REPLACE_WITH_REAL_NAME|${NEW_RELIC_APP_NAME}|g" /app/php/conf.d/newrelic.ini
 
 cat >> boot.sh <<EOF
     # Make the Heroku environment variables available to Apache
