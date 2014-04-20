@@ -18,11 +18,6 @@ CURL_CMD="curl --silent --max-time 60 -O --location"
 . $BIN_DIR/../variables.sh
 . $BIN_DIR/../support/utils.sh
 
-export_env_dir $ENV_DIR
-
-echo "-----> Environment Variables"
-echo "New Relic License Key: ${NEW_RELIC_LICENSE_KEY}"
-
 # include .files when moving things around
 shopt -s dotglob
 
@@ -132,7 +127,7 @@ popd > /dev/null
 # Run the rollout script
 pushd $BUILD_DIR > /dev/null
 if [ -f www/rollout.sh ]; then
-    ./www/rollout.sh "$BUILD_DIR" "$CACHE_DIR" "$APPLICATION_ENV"
+    ./www/rollout.sh "$BUILD_DIR" "$CACHE_DIR" "$APPLICATION_ENV" $ENV_DIR
 fi
 popd > /dev/null
 
