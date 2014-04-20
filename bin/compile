@@ -17,6 +17,11 @@ CURL_CMD="curl --silent --max-time 60 -O --location"
 . $BIN_DIR/../variables.sh
 . $BIN_DIR/../support/utils.sh
 
+export_env_dir $ENV_DIR
+
+echo "-----> Environment Variables"
+echo "${NEW_RELIC_LICENSE_KEY}"
+
 # include .files when moving things around
 shopt -s dotglob
 
@@ -47,9 +52,6 @@ if [ -n "`find . -type f -atime +30`" ]; then
     echo "-----> Pruning old cached files"
     find . -type f -atime +30 -delete | indent
 fi
-
-echo "-----> Environment Variables"
-echo "${ENV_DIR}"
 
 echo "-----> Fetching Manifest: https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$MANIFEST_FILE"
 $CURL_CMD "https://$BUILDPACK_S3_BUCKET.s3.amazonaws.com/$MANIFEST_FILE"
