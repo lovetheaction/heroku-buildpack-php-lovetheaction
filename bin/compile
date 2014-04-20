@@ -130,6 +130,9 @@ if [ -f www/rollout.sh ]; then
 fi
 popd > /dev/null
 
+echo "-----> Environment Variables"
+echo "${ENV_DIR}"
+
 cat >> boot.sh <<EOF
     # Make the Heroku environment variables available to Apache
     echo "-----> Including env variables in Apache"
@@ -157,6 +160,7 @@ cat >> boot.sh <<EOF
 
     # Insert the New Relic key (from heroku config) into newrelic.ini
     sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/php/conf.d/newrelic.ini
+    sed -i "s|REPLACE_WITH_REAL_NAME|${NEW_RELIC_APP_NAME}|g" /app/php/conf.d/newrelic.ini
 
     # PHP shared library path (for the application)
     export LD_LIBRARY_PATH=/app/php/ext:/app/php/local/lib
