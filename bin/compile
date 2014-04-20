@@ -18,6 +18,8 @@ CURL_CMD="curl --silent --max-time 60 -O --location"
 . $BIN_DIR/../variables.sh
 . $BIN_DIR/../support/utils.sh
 
+export_env_dir $ENV_DIR
+
 # include .files when moving things around
 shopt -s dotglob
 
@@ -127,9 +129,17 @@ popd > /dev/null
 # Run the rollout script
 pushd $BUILD_DIR > /dev/null
 if [ -f www/rollout.sh ]; then
-    ./www/rollout.sh "$BUILD_DIR" "$CACHE_DIR" "$APPLICATION_ENV" $ENV_DIR
+    ./www/rollout.sh "$BUILD_DIR" "$CACHE_DIR" "$APPLICATION_ENV"
 fi
 popd > /dev/null
+
+echo "-----> Setup Environment Variables"
+
+echo "-----> New Relic License Key: ${NEW_RELIC_LICENSE_KEY}"
+sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/php/conf.d/newrelic.ini
+
+echo "-----> New Relic Name: ${NEW_RELIC_APP_NAME}"
+sed -i "s|REPLACE_WITH_REAL_NAME|${NEW_RELIC_APP_NAME}|g" /app/php/conf.d/newrelic.ini
 
 cat >> boot.sh <<EOF
     # Make the Heroku environment variables available to Apache
