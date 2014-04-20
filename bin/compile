@@ -10,6 +10,7 @@ unset GIT_DIR
 BIN_DIR=`dirname $(readlink -f $0)`
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
 BUNDLE_DIR="$CACHE_DIR/bundles"
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 CURL_CMD="curl --silent --max-time 60 -O --location"
@@ -20,7 +21,7 @@ CURL_CMD="curl --silent --max-time 60 -O --location"
 export_env_dir $ENV_DIR
 
 echo "-----> Environment Variables"
-echo "${NEW_RELIC_LICENSE_KEY}"
+echo "New Relic License Key: ${NEW_RELIC_LICENSE_KEY}"
 
 # include .files when moving things around
 shopt -s dotglob
