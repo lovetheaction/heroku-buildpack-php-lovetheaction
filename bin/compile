@@ -129,6 +129,8 @@ popd > /dev/null
 echo "-----> Setup Environment Variables"
 echo "-----> New Relic License Key: ${NEW_RELIC_LICENSE_KEY}"
 echo "-----> New Relic Name: ${NEW_RELIC_APP_NAME}"
+sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/php/conf.d/newrelic.ini
+sed -i "s|REPLACE_WITH_REAL_NAME|${NEW_RELIC_APP_NAME}|g" /app/php/conf.d/newrelic.ini
 
 # Run the rollout script
 pushd $BUILD_DIR > /dev/null
@@ -182,3 +184,5 @@ EOF
 chmod +x boot.sh
 
 popd > /dev/null
+
+echo "-----> Finished"
